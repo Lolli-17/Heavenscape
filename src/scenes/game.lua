@@ -6,7 +6,6 @@ local player = require("src.entities.player")
 require("src.utils")
 
 local Game = {}
-local fireTimer = 0
 
 function Game.load()
 	player.load()
@@ -14,26 +13,6 @@ end
 
 function Game.update(dt)
 	player.update(dt)
-
-	fireTimer = fireTimer + dt
-	if fireTimer > 0.5 then
-		local nearestEnemy = enemy_list.target(player)
-		if nearestEnemy ~= nil then
-			local dx = nearestEnemy.x - player.x
-			local dy = nearestEnemy.y - player.y
-			local distance = math.sqrt(dx * dx + dy * dy)
-			local dirX, dirY = 0, 0
-			if distance > 0 then
-				dirX = dx / distance
-				dirY = dy / distance
-			end
-			
-			bullet_list.spawn(player.x + player.size / 2, player.y + player.size / 2, dirX, dirY)
-		end
-
-		fireTimer = 0
-	end
-
 	bullet_list.update(dt)
 	enemy_list.update(dt, player)
 

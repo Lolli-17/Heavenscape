@@ -14,14 +14,6 @@ function BulletList.spawn(startX, startY, dirX, dirY)
 	table.insert(BulletList.list, bullet)
 end
 
-function BulletList.draw()
-	love.graphics.setColor(1, 1, 0)
-	
-	for i, bullet in ipairs(BulletList.list) do
-		love.graphics.rectangle("fill", bullet.x, bullet.y, bullet.size, bullet.size)
-	end
-end
-
 function BulletList.update(dt)
 	for i = #BulletList.list, 1, -1 do
 		local bullet = BulletList.list[i]
@@ -35,6 +27,14 @@ function BulletList.update(dt)
 		   bullet.y < -bullet.size then
 			table.remove(BulletList.list, i)
 		end
+	end
+end
+
+function BulletList.draw()
+	love.graphics.setColor(1, 1, 0)
+	
+	for i, bullet in ipairs(BulletList.list) do
+		love.graphics.rectangle("fill", bullet.x, bullet.y, bullet.size, bullet.size)
 	end
 end
 

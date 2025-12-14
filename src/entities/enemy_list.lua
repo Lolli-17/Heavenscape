@@ -36,21 +36,7 @@ end
 
 function EnemyList.update(dt, player)
 	EnemyList.timer = EnemyList.timer + dt
-
-	-- for i, enemy in ipairs(EnemyList.list) do
-	-- 	local dx = player_x - enemy.x
-	-- 	local dy = player_y - enemy.y
-	-- 	local distance = math.sqrt(dx * dx + dy * dy)
-	-- 	local dirX, dirY = 0, 0
-	-- 	if distance > 0 then
-	-- 		dirX = dx / distance
-	-- 		dirY = dy / distance
-	-- 	end
-
-	-- 	enemy.x = enemy.x + (dirX * enemy.speed * dt)
-	-- 	enemy.y = enemy.y + (dirY * enemy.speed * dt)
-	-- end
-
+	
 	for i = #EnemyList.list, 1, -1 do
 		local enemy = EnemyList.list[i]
 		local dx = player.x - enemy.x

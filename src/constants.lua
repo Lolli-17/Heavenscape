@@ -11,6 +11,7 @@ local Constants = {
 	BULLET = {
 		SIZE = 8,
 		SPEED = 400,
+		COOLDOWN = 0.5,
 	},
 	ENEMY = {
 		MIN_SIZE = 25,
