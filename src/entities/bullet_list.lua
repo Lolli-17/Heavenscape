@@ -29,9 +29,9 @@ function BulletList.update(dt)
 		bullet.x = bullet.x + (bullet.dirX * bullet.speed * dt)
 		bullet.y = bullet.y + (bullet.dirY * bullet.speed * dt)
 
-		if bullet.x > K.SCREEN_WIDTH or
+		if bullet.x > K.SCREEN.WIDTH or
 		   bullet.x < -bullet.size or
-		   bullet.y > K.SCREEN_HEIGHT or
+		   bullet.y > K.SCREEN.HEIGHT or
 		   bullet.y < -bullet.size then
 			table.remove(BulletList.list, i)
 		end

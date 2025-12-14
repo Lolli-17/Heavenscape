@@ -7,9 +7,9 @@ EnemyList.timer = 0
 
 function EnemyList.spawn()
 	local newEnemy = {
-		x = math.random(0, K.SCREEN_WIDTH),
-		y = math.random(0, K.SCREEN_HEIGHT),
-		size = math.random(K.ENEMY.MIN_SIZE, K.ENEMY._SIZE),
+		x = math.random(0, K.SCREEN.WIDTH),
+		y = math.random(0, K.SCREEN.HEIGHT),
+		size = math.random(K.ENEMY.MIN_SIZE, K.ENEMY.MAX_SIZE),
 		speed = math.random(K.ENEMY.MIN_SPEED, K.ENEMY.MAX_SPEED),
 	}
 
