@@ -17,11 +17,11 @@ function Game.load()
 end
 
 function Game.update(dt)
+	player.update(dt)
+
 	local lerp_speed = 10
 	local nuova_x = camera.x + (player.centerX - camera.x) * lerp_speed * dt
 	local nuova_y = camera.y + (player.centerY - camera.y) * lerp_speed * dt
-
-	player.update(dt)
 	camera:lookAt(nuova_x, nuova_y)
 	bullet_list.update(dt)
 	enemy_list.update(dt, player)

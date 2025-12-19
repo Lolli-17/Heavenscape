@@ -5,10 +5,10 @@ local EnemyList = {}
 EnemyList.list = {}
 EnemyList.timer = 0
 
-function EnemyList.spawn()
+function EnemyList.spawn(centerX, centerY)
 	local newEnemy = {
-		x = math.random(0, K.SCREEN.WIDTH),
-		y = math.random(0, K.SCREEN.HEIGHT),
+		x = centerX + (K.SCREEN.WIDTH * 0.75 * math.cos(math.random() * (2 * math.pi))),
+		y = centerY + (K.SCREEN.WIDTH * 0.75 * math.sin(math.random() * (2 * math.pi))),
 		size = math.random(K.ENEMY.MIN_SIZE, K.ENEMY.MAX_SIZE),
 		speed = math.random(K.ENEMY.MIN_SPEED, K.ENEMY.MAX_SPEED),
 	}
@@ -67,7 +67,7 @@ function EnemyList.update(dt, player)
 	end
 
 	if EnemyList.timer > 1 then
-		EnemyList.spawn()
+		EnemyList.spawn(player.centerX, player.centerY)
 		EnemyList.timer = 0
 	end
 end
