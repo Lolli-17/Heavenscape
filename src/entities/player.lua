@@ -18,10 +18,6 @@ function Player.load()
 end
 
 function Player.update(dt)
-
-	Player.centerX = Player.x + Player.size / 2
-	Player.centerY = Player.y + Player.size / 2
-
 	fireTimer = fireTimer + dt
 	if fireTimer > bullet_cooldown then
 		local nearestEnemy = enemy_list.target(Player)
@@ -41,16 +37,19 @@ function Player.update(dt)
 		fireTimer = 0
 	end
 
-	if input_manager.check("right") and Player.x < (K.SCREEN.WIDTH - Player.size) then
+	if input_manager.check("right") then
 		Player.x = Player.x + (Player.speed * dt)
-	elseif input_manager.check("left") and Player.x > (0) then
+	elseif input_manager.check("left") then
 		Player.x = Player.x - (Player.speed * dt)
 	end
-	if input_manager.check("down") and Player.y < (K.SCREEN.HEIGHT - Player.size) then
+	if input_manager.check("down") then
 		Player.y = Player.y + (Player.speed * dt)
-	elseif input_manager.check("up") and Player.y > (0) then
+	elseif input_manager.check("up") then
 		Player.y = Player.y - (Player.speed * dt)
 	end
+
+	Player.centerX = Player.x + Player.size / 2
+	Player.centerY = Player.y + Player.size / 2
 end
 
 function Player.draw()

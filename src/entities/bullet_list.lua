@@ -1,4 +1,5 @@
 local K = require("src.constants")
+local map = require("src.entities.map")
 local BulletList = {}
 BulletList.list = {}
 
@@ -21,10 +22,10 @@ function BulletList.update(dt)
 		bullet.x = bullet.x + (bullet.dirX * bullet.speed * dt)
 		bullet.y = bullet.y + (bullet.dirY * bullet.speed * dt)
 
-		if bullet.x > K.SCREEN.WIDTH or
-		   bullet.x < -bullet.size or
-		   bullet.y > K.SCREEN.HEIGHT or
-		   bullet.y < -bullet.size then
+		if bullet.x > map.end_x or
+		   bullet.x < map.start_x - bullet.size or
+		   bullet.y > map.end_y or
+		   bullet.y < map.start_y - bullet.size then
 			table.remove(BulletList.list, i)
 		end
 	end
