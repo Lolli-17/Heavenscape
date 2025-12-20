@@ -52,10 +52,11 @@ function BulletManager.update(dt)
 		for j, col in ipairs(cols) do
 			if col.other.type == "enemy" then
 				BulletManager.world:remove(bullet)
-
-				col.other.health = col.other.health - bullet.damage
-
 				table.remove(BulletManager.list, i)
+				
+				col.other.health = col.other.health - bullet.damage
+				
+				break
 			end
 		end
 	end

@@ -19,7 +19,12 @@ function Player.load(world)
 
 	Player.world:add(Player, Player.x, Player.y, Player.size, Player.size)
 
-	Player.weapon = weapon.create(20, 0.3, 400, 8)
+	Player.weapon = weapon.create(
+		K.WEAPON.PISTOL.DAMAGE,
+		K.WEAPON.PISTOL.FIRE_RATE,
+		K.WEAPON.PISTOL.SPEED,
+		K.WEAPON.PISTOL.SIZE
+	)
 end
 
 function Player.update(dt)
@@ -58,9 +63,9 @@ function Player.update(dt)
 	local function playerFilter(item, other)
 		if other.type == "bullet" then 
 				return nil
-		elseif other.type == "enemy" then
-			return "cross"
 		end
+
+		return "slide"
 	end
 
 	if dx ~= 0 or dy ~= 0 then

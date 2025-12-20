@@ -3,6 +3,7 @@ require("src.utils")
 
 local EnemyManager = {}
 EnemyManager.timer = 0
+EnemyManager.spawnRate = K.ENEMY.SPAWN_RATE
 
 
 function EnemyManager.load(world)
@@ -11,9 +12,28 @@ function EnemyManager.load(world)
 end
 
 function EnemyManager.spawn(centerX, centerY)
+	local margin = 100
+	local side = math.random(4)
+
+	local x, y
+
+	if side == 1 then -- sopra
+		x = centerX + math.random(-K.SCREEN.WIDTH / 2, K.SCREEN.WIDTH / 2)
+		y = centerY - K.SCREEN.HEIGHT / 2 - margin
+	elseif side == 2 then -- sotto
+		x = centerX + math.random(-K.SCREEN.WIDTH / 2, K.SCREEN.WIDTH / 2)
+		y = centerY + K.SCREEN.HEIGHT / 2 + margin
+	elseif side == 3 then -- sinistra
+		x = centerX - K.SCREEN.WIDTH / 2 - margin
+		y = centerY + math.random(-K.SCREEN.HEIGHT / 2, K.SCREEN.HEIGHT / 2)
+	else -- destra
+		x = centerX + K.SCREEN.WIDTH / 2 + margin
+		y = centerY + math.random(-K.SCREEN.HEIGHT / 2, K.SCREEN.HEIGHT / 2)
+	end
+
 	local newEnemy = {
-		x = centerX + (K.SCREEN.WIDTH * 0.75 * math.cos(math.random() * (2 * math.pi))),
-		y = centerY + (K.SCREEN.WIDTH * 0.75 * math.sin(math.random() * (2 * math.pi))),
+		x = x,
+		y = y,
 		size = math.random(K.ENEMY.MIN_SIZE, K.ENEMY.MAX_SIZE),
 		speed = math.random(K.ENEMY.MIN_SPEED, K.ENEMY.MAX_SPEED),
 		health = 10,
@@ -72,15 +92,15 @@ function EnemyManager.update(dt, player)
 
 		for j, col in ipairs(cols) do
 			if col.other == player then
-				player.health = player.health - 1
+				-- player.health = player.health - 1
 
-				EnemyManager.world:remove(enemy)
-				table.remove(EnemyManager.list, i)
+				-- EnemyManager.world:remove(enemy)
+				-- table.remove(EnemyManager.list, i)
 			end
 		end
 	end
 
-	if EnemyManager.timer > 0.1 then
+	if EnemyManager.timer > EnemyManager.spawnRate then
 		EnemyManager.spawn(player.centerX, player.centerY)
 		EnemyManager.timer = 0
 	end

@@ -1,13 +1,4 @@
 local Constants = {
-	SCREEN = {
-		WIDTH = 800,
-		HEIGHT = 600,
-	},
-	PLAYER = {
-		SIZE = 30,
-		SPEED = 200,
-		HEALTH = 3,
-	},
 	BULLET = {
 		SIZE = 8,
 		SPEED = 400,
@@ -18,6 +9,27 @@ local Constants = {
 		MAX_SIZE = 45,
 		MIN_SPEED = 90,
 		MAX_SPEED = 150,
+		SPAWN_RATE = 0.1,
+	},
+	MAP = {
+		CELL = 180
+	},
+	PLAYER = {
+		SIZE = 30,
+		SPEED = 200,
+		HEALTH = 3,
+	},
+	SCREEN = {
+		WIDTH = 800,
+		HEIGHT = 600,
+	},
+	WEAPON = {
+		PISTOL = {
+			DAMAGE = 20,
+			FIRE_RATE = 0.3,
+			SPEED = 400,
+			SIZE = 8
+		},
 	},
 }
 
