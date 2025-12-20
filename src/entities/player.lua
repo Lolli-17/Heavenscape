@@ -1,13 +1,12 @@
 local K = require("src.constants")
-local enemy_list = require("src.entities.enemy_list")
-local bullet_list = require("src.entities.bullet_list")
+local enemy_manager = require("src.entities.enemy_manager")
+local bullet_manager = require("src.entities.bullet_manager")
 local input_manager = require("src.managers.input_manager")
+local weapon = require("src.weapon")
 
 local Player = {}
-local fireTimer = 0
-local bullet_cooldown = K.BULLET.COOLDOWN
 
-function Player.load()
+function Player.load(world)
 	Player.x = K.SCREEN.CENTER_X - K.PLAYER.SIZE / 2
 	Player.y = K.SCREEN.CENTER_Y - K.PLAYER.SIZE / 2
 	Player.size = K.PLAYER.SIZE
@@ -15,12 +14,18 @@ function Player.load()
 	Player.centerY = Player.y + Player.size / 2
 	Player.speed = K.PLAYER.SPEED
 	Player.health = K.PLAYER.HEALTH
+	Player.type = "player"
+	Player.world = world
+
+	Player.world:add(Player, Player.x, Player.y, Player.size, Player.size)
+
+	Player.weapon = weapon.create(20, 0.3, 400, 8)
 end
 
 function Player.update(dt)
-	fireTimer = fireTimer + dt
-	if fireTimer > bullet_cooldown then
-		local nearestEnemy = enemy_list.target(Player)
+	Player.weapon.timer = Player.weapon.timer + dt
+	if Player.weapon.timer > Player.weapon.fireRate then
+		local nearestEnemy = enemy_manager.target(Player)
 		if nearestEnemy ~= nil then
 			local dx = nearestEnemy.x - Player.x
 			local dy = nearestEnemy.y - Player.y
@@ -31,21 +36,41 @@ function Player.update(dt)
 				dirY = dy / distance
 			end
 			
-			bullet_list.spawn(Player.centerX, Player.centerY, dirX, dirY)
+			bullet_manager.spawn(Player.centerX, Player.centerY, dirX, dirY, Player.weapon)
 		end
 
-		fireTimer = 0
+		Player.weapon.timer = 0
 	end
 
+	local dx, dy = 0, 0
+
 	if input_manager.check("right") then
-		Player.x = Player.x + (Player.speed * dt)
+		dx = Player.speed * dt
 	elseif input_manager.check("left") then
-		Player.x = Player.x - (Player.speed * dt)
+		dx = -(Player.speed * dt)
 	end
 	if input_manager.check("down") then
-		Player.y = Player.y + (Player.speed * dt)
+		dy = Player.speed * dt
 	elseif input_manager.check("up") then
-		Player.y = Player.y - (Player.speed * dt)
+		dy = -(Player.speed * dt)
+	end
+
+	local function playerFilter(item, other)
+		if other.type == "bullet" then 
+				return nil
+		elseif other.type == "enemy" then
+			return "cross"
+		end
+	end
+
+	if dx ~= 0 or dy ~= 0 then
+		local goalX = Player.x + dx
+        local goalY = Player.y + dy
+
+        local actualX, actualY, cols, len = Player.world:move(Player, goalX, goalY, playerFilter)
+
+        Player.x = actualX
+        Player.y = actualY
 	end
 
 	Player.centerX = Player.x + Player.size / 2
