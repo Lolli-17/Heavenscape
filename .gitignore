@@ -1,0 +1,42 @@
+# --- File di Sistema (Inutili) ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# --- Editor e IDE (Configurazioni personali) ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- LÖVE Build & Dist ---
+# Ignora i pacchetti di gioco generati
+*.love
+build/
+dist/
+bin/
+releases/
+
+# --- Binari ed Eseguibili (Il problema del blocco!) ---
+# Ignora i file dell'engine Love2D se li hai copiati nella cartella
+*.exe
+*.dll
+*.dylib
+*.so
+
+# Ignora le cartelle dell'engine scaricato (versioni comuni)
+love-11.5-*/
+love-*/
+macos/
+win64/
+win32/
+
+# --- Lua ---
+# Ignora file compilati lua o log di crash
+luac.out
+*.log
+
+# --- Web / Altro (Visto che li avevi nel comando tree) ---
+node_modules/
+.next/
+.git/
