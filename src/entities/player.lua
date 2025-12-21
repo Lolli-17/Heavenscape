@@ -16,6 +16,8 @@ function Player.load(world)
 	Player.health = K.PLAYER.HEALTH
 	Player.type = "player"
 	Player.world = world
+	Player.xp = 0
+	Player.level = 1
 
 	Player.world:add(Player, Player.x, Player.y, Player.size, Player.size)
 
@@ -44,7 +46,7 @@ function Player.update(dt)
 			bullet_manager.spawn(Player.centerX, Player.centerY, dirX, dirY, Player.weapon)
 		end
 
-		Player.weapon.timer = 0
+		Player.weapon.timer = Player.weapon.timer - Player.weapon.fireRate
 	end
 
 	local dx, dy = 0, 0
@@ -80,6 +82,11 @@ function Player.update(dt)
 
 	Player.centerX = Player.x + Player.size / 2
 	Player.centerY = Player.y + Player.size / 2
+
+	if Player.xp >= 10 then
+		Player.level = Player.level + 1
+		Player.xp = Player.xp - 10
+	end
 end
 
 function Player.draw()

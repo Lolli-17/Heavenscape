@@ -4,12 +4,17 @@ local Constants = {
 		SPEED = 400,
 		COOLDOWN = 0.5,
 	},
+	DROP = {
+		PICKUP_RADIUS = 100,
+		SIZE = 10,
+		SPEED = 225,
+	},
 	ENEMY = {
 		MIN_SIZE = 25,
 		MAX_SIZE = 45,
 		MIN_SPEED = 90,
 		MAX_SPEED = 150,
-		SPAWN_RATE = 0.1,
+		SPAWN_RATE = 0.3,
 	},
 	MAP = {
 		CELL = 180

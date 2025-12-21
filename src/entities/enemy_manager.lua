@@ -1,4 +1,5 @@
 local K = require("src.constants")
+local drop_manager = require("src.entities.drop_manager")
 require("src.utils")
 
 local EnemyManager = {}
@@ -68,9 +69,22 @@ function EnemyManager.update(dt, player)
 	for i = #EnemyManager.list, 1, -1 do
 		local enemy = EnemyManager.list[i]
 
+		local function enemyFilter(item, other)
+			if other.type == "drop" then
+				return "cross"
+			elseif other.type == "player" then
+				return "slide"
+			end
+
+			return nil
+		end
+
 		if enemy.health <= 0 then
+			drop_manager.spawn(enemy.x, enemy.y)
+
 			EnemyManager.world:remove(enemy)
 			table.remove(EnemyManager.list, i)
+
 			break
 		end
 
@@ -85,17 +99,17 @@ function EnemyManager.update(dt, player)
 
 		local goalX = enemy.x + (dirX * enemy.speed * dt)
 		local goalY = enemy.y + (dirY * enemy.speed * dt)
-		local actualX, actualY, cols, len = EnemyManager.world:move(enemy, goalX, goalY)
+		local actualX, actualY, cols, len = EnemyManager.world:move(enemy, goalX, goalY, enemyFilter)
 
 		enemy.x = actualX
 		enemy.y = actualY
 
 		for j, col in ipairs(cols) do
 			if col.other == player then
-				-- player.health = player.health - 1
+				player.health = player.health - 1
 
-				-- EnemyManager.world:remove(enemy)
-				-- table.remove(EnemyManager.list, i)
+				EnemyManager.world:remove(enemy)
+				table.remove(EnemyManager.list, i)
 			end
 		end
 	end

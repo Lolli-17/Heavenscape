@@ -1,9 +1,9 @@
--- src/scenes/game.lua
 local K = require("src.constants")
 local enemy_manager = require("src.entities.enemy_manager")
 local bullet_manager = require("src.entities.bullet_manager")
+local drop_manager = require("src.entities.drop_manager")
+local ui_manager = require("src.managers.ui_manager")
 local player = require("src.entities.player")
-local collision_manager = require("src.managers.collision_manager")
 local camera = require("src.utils.camera")
 local map = require("src.entities.map")
 local bump = require("src.libs.bump")
@@ -16,6 +16,7 @@ function Game.load()
 	player.load(Game.world)
 	enemy_manager.load(Game.world)
 	bullet_manager.load(Game.world)
+	drop_manager.load(Game.world)
 	map.load()
 	camera:lookAt(player.centerX, player.centerY)
 end
@@ -29,7 +30,7 @@ function Game.update(dt)
 	camera:lookAt(nuova_x, nuova_y)
 	bullet_manager.update(dt)
 	enemy_manager.update(dt, player)
-	collision_manager.update(player, enemy_manager, bullet_manager)
+	drop_manager.update(dt, player)
 	map.update()
 end
 
@@ -37,10 +38,11 @@ function Game.draw()
 	camera:attach()
 	map.draw()
 	player.draw()
+	drop_manager.draw()
 	enemy_manager.draw()
 	bullet_manager.draw()
 	camera:detach()
-	love.graphics.print("HP: " .. player.health, 10, 10)
+	ui_manager.draw(player)
 end
 
 return Game
