@@ -2,6 +2,10 @@ local suit = require("src.libs.suit")
 
 local Menu = {}
 
+function Menu.load()
+    
+end
+
 function Menu.update(dt)
     suit.layout:reset(100, 100)
 	

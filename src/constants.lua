@@ -1,11 +1,6 @@
 local Constants = {
-	BULLET = {
-		SIZE = 8,
-		SPEED = 400,
-		COOLDOWN = 0.5,
-	},
 	DROP = {
-		PICKUP_RADIUS = 100,
+		PICKUP_RADIUS = 20,
 		SIZE = 10,
 		SPEED = 225,
 	},
@@ -14,7 +9,7 @@ local Constants = {
 		MAX_SIZE = 45,
 		MIN_SPEED = 90,
 		MAX_SPEED = 150,
-		SPAWN_RATE = 0.3,
+		SPAWN_RATE = 0.8,
 	},
 	MAP = {
 		CELL = 180
@@ -31,7 +26,7 @@ local Constants = {
 	WEAPON = {
 		PISTOL = {
 			DAMAGE = 20,
-			FIRE_RATE = 0.3,
+			FIRE_RATE = 1,
 			SPEED = 400,
 			SIZE = 8
 		},

@@ -7,6 +7,8 @@ local player = require("src.entities.player")
 local camera = require("src.utils.camera")
 local map = require("src.entities.map")
 local bump = require("src.libs.bump")
+local level_up = require("src.scenes.level_up")
+
 require("src.utils")
 
 local Game = {}
@@ -23,6 +25,11 @@ end
 
 function Game.update(dt)
 	player.update(dt)
+	if player.levelUpReady then
+		player.levelUpReady = false
+    	level_up.generateOptions()
+		return "levelUp"
+	end
 
 	local lerp_speed = 10
 	local nuova_x = camera.x + (player.centerX - camera.x) * lerp_speed * dt
@@ -32,6 +39,8 @@ function Game.update(dt)
 	enemy_manager.update(dt, player)
 	drop_manager.update(dt, player)
 	map.update()
+
+	return "game"
 end
 
 function Game.draw()

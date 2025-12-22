@@ -17,7 +17,9 @@ function Player.load(world)
 	Player.type = "player"
 	Player.world = world
 	Player.xp = 0
+	Player.xpToLevelUp = 1
 	Player.level = 1
+	Player.levelUpReady = false
 
 	Player.world:add(Player, Player.x, Player.y, Player.size, Player.size)
 
@@ -65,6 +67,8 @@ function Player.update(dt)
 	local function playerFilter(item, other)
 		if other.type == "bullet" then 
 				return nil
+		elseif other.type == "drop" then
+			return "cross"
 		end
 
 		return "slide"
@@ -83,9 +87,12 @@ function Player.update(dt)
 	Player.centerX = Player.x + Player.size / 2
 	Player.centerY = Player.y + Player.size / 2
 
-	if Player.xp >= 10 then
+	if Player.xp >= Player.xpToLevelUp then
 		Player.level = Player.level + 1
-		Player.xp = Player.xp - 10
+		Player.xp = Player.xp - Player.xpToLevelUp
+		Player.xpToLevelUp = Player.xpToLevelUp + 1
+
+		Player.levelUpReady = true
 	end
 end
 
