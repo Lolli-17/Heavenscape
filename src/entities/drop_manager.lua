@@ -5,6 +5,7 @@ local DropManager = {}
 function DropManager.load(world)
 	DropManager.world = world
 	DropManager.list = {}
+	DropManager.pickUpRadiusUpgrade = 0
 end
 
 function DropManager.spawn(x, y)
@@ -13,7 +14,7 @@ function DropManager.spawn(x, y)
 		y = y,
 		size = K.DROP.SIZE,
 		speed = K.DROP.SPEED,
-		pickUpRadius = K.DROP.PICKUP_RADIUS,
+		pickUpRadius = K.DROP.PICKUP_RADIUS + DropManager.pickUpRadiusUpgrade,
 		type = "drop",
 	}
 

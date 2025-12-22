@@ -35,6 +35,7 @@ LevelUp.pool = {
 			for i, drop in ipairs(drop_manager.list) do
 				drop.pickUpRadius = drop.pickUpRadius + 20
 			end
+			drop_manager.pickUpRadiusUpgrade = drop_manager.pickUpRadiusUpgrade + 20
 		end,
 	},
 	{
