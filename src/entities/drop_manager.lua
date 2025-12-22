@@ -14,7 +14,7 @@ function DropManager.spawn(x, y)
 		y = y,
 		size = K.DROP.SIZE,
 		speed = K.DROP.SPEED,
-		pickUpRadius = K.DROP.PICKUP_RADIUS + DropManager.pickUpRadiusUpgrade,
+		value = 1,
 		type = "drop",
 	}
 
@@ -48,14 +48,14 @@ function DropManager.update(dt, player)
 		local goalX = drop.x + (dirX * drop.speed * dt)
 		local goalY = drop.y + (dirY * drop.speed * dt)
 		local actualX, actualY, cols, len
-		if distance < drop.pickUpRadius then
+		if distance < player.stats.pickUpRadius then
 			actualX, actualY, cols, len = DropManager.world:move(drop, goalX, goalY, dropFilter)
 			drop.x = actualX
 			drop.y = actualY
 	
 			for j, col in ipairs(cols) do
 				if col.other == player then
-					player.xp = player.xp + 1
+					player:collectXp(drop.value)
 	
 					DropManager.world:remove(drop)
 					table.remove(DropManager.list, i)

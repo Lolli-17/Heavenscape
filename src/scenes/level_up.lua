@@ -18,24 +18,21 @@ LevelUp.pool = {
 		id = "speed",
 		text = "Aumenta la velocità di movimento",
 		action = function ()
-			player.speed = player.speed + 25
+			player.stats.speed = player.stats.speed + 25
 		end,
 	},
 	{
 		id = "health",
 		text = "Recupera la vita",
 		action = function ()
-			player.health = player.health + 1
+			player.stats.health = player.stats.health + 1
 		end,
 	},
 	{
 		id = "pickUp",
 		text = "Aumenta raggio di raccolta",
 		action = function ()
-			for i, drop in ipairs(drop_manager.list) do
-				drop.pickUpRadius = drop.pickUpRadius + 20
-			end
-			drop_manager.pickUpRadiusUpgrade = drop_manager.pickUpRadiusUpgrade + 20
+			player.stats.pickUpRadius = player.stats.pickUpRadius + 20
 		end,
 	},
 	{

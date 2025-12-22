@@ -106,7 +106,7 @@ function EnemyManager.update(dt, player)
 
 		for j, col in ipairs(cols) do
 			if col.other == player then
-				player.health = player.health - 1
+				player.stats.health = player.stats.health - 1
 
 				EnemyManager.world:remove(enemy)
 				table.remove(EnemyManager.list, i)

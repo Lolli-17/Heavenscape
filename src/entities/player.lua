@@ -7,28 +7,49 @@ local weapon = require("src.weapon")
 local Player = {}
 
 function Player.load(world)
-	Player.x = K.SCREEN.CENTER_X - K.PLAYER.SIZE / 2
-	Player.y = K.SCREEN.CENTER_Y - K.PLAYER.SIZE / 2
-	Player.size = K.PLAYER.SIZE
-	Player.centerX = Player.x + Player.size / 2
-	Player.centerY = Player.y + Player.size / 2
-	Player.speed = K.PLAYER.SPEED
-	Player.health = K.PLAYER.HEALTH
-	Player.type = "player"
-	Player.world = world
-	Player.xp = 0
-	Player.xpToLevelUp = 1
-	Player.level = 1
-	Player.levelUpReady = false
+    -- PROPRIETÀ FISICHE (World)
+    Player.x = K.SCREEN.CENTER_X - K.PLAYER.SIZE / 2
+    Player.y = K.SCREEN.CENTER_Y - K.PLAYER.SIZE / 2
+    Player.size = K.PLAYER.SIZE
+    Player.centerX = Player.x + Player.size / 2
+    Player.centerY = Player.y + Player.size / 2
+    Player.world = world
+    
+    -- STATO / RPG (Stats) - Tutto qui dentro!
+    Player.stats = {
+        speed = K.PLAYER.SPEED,
+        health = K.PLAYER.HEALTH,
+        maxHealth = K.PLAYER.HEALTH,
+        damage = K.WEAPON.PISTOL.DAMAGE,
+        pickUpRadius = K.DROP.PICKUP_RADIUS,
+        xp = 0,
+        level = 1,
+        nextLevelXp = 10,
+    }
 
-	Player.world:add(Player, Player.x, Player.y, Player.size, Player.size)
+    Player.levelUpReady = false
+    Player.type = "player"
 
-	Player.weapon = weapon.create(
-		K.WEAPON.PISTOL.DAMAGE,
-		K.WEAPON.PISTOL.FIRE_RATE,
-		K.WEAPON.PISTOL.SPEED,
-		K.WEAPON.PISTOL.SIZE
-	)
+    Player.world:add(Player, Player.x, Player.y, Player.size, Player.size)
+
+    -- Weapon (nota: in futuro anche weapon userà Player.stats.damage)
+    Player.weapon = weapon.create(
+        K.WEAPON.PISTOL.DAMAGE,
+        K.WEAPON.PISTOL.FIRE_RATE,
+        K.WEAPON.PISTOL.SPEED,
+        K.WEAPON.PISTOL.SIZE
+    )
+end
+
+function Player:collectXp(amount)
+    self.stats.xp = self.stats.xp + amount
+
+    if self.stats.xp >= self.stats.nextLevelXp then
+        self.stats.level = self.stats.level + 1
+        self.stats.xp = self.stats.xp - self.stats.nextLevelXp
+        self.stats.nextLevelXp = self.stats.nextLevelXp + 1
+        self.levelUpReady = true
+    end
 end
 
 function Player.update(dt)
@@ -54,14 +75,14 @@ function Player.update(dt)
 	local dx, dy = 0, 0
 
 	if input_manager.check("right") then
-		dx = Player.speed * dt
+		dx = Player.stats.speed * dt
 	elseif input_manager.check("left") then
-		dx = -(Player.speed * dt)
+		dx = -(Player.stats.speed * dt)
 	end
 	if input_manager.check("down") then
-		dy = Player.speed * dt
+		dy = Player.stats.speed * dt
 	elseif input_manager.check("up") then
-		dy = -(Player.speed * dt)
+		dy = -(Player.stats.speed * dt)
 	end
 
 	local function playerFilter(item, other)
@@ -86,14 +107,6 @@ function Player.update(dt)
 
 	Player.centerX = Player.x + Player.size / 2
 	Player.centerY = Player.y + Player.size / 2
-
-	if Player.xp >= Player.xpToLevelUp then
-		Player.level = Player.level + 1
-		Player.xp = Player.xp - Player.xpToLevelUp
-		Player.xpToLevelUp = Player.xpToLevelUp + 1
-
-		Player.levelUpReady = true
-	end
 end
 
 function Player.draw()
